@@ -1,0 +1,22 @@
+{
+  "name": "Node 1",
+  "img": "images/sapiens.jpg",
+  "em": 4e6,
+  "ex": 2e6,
+  "children": [
+    {
+      "name": "Node 2",
+      "img": "images/sapiens.jpg",
+      "em": 2e6,
+      "ex": 2e6,
+      "children": []
+    },
+    {
+      "name": "Node 3",
+      "img": "images/sapiens.jpg",
+      "em": 3e6,
+      "ex": 2e6,
+      "children": []
+    }
+  ]
+}
