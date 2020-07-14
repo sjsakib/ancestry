@@ -30,6 +30,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Node rootNode;
+  Offset delta = Offset(0, 0);
+  double scale = 5e4;
+
+  // gesture state
+  Offset initFocalPoint = Offset(0, 0);
+  Offset initDelta = Offset(0, 0);
+  double initScale = 1.0;
+
   List<Widget> nodes = <Widget>[];
 
   void initState() {
@@ -47,8 +55,8 @@ class _HomeState extends State<Home> {
   }
 
   void addNode(Node node, double posY, double dy) {
-    var posX = ((rootNode.emergence - node.emergence) / 1e4) + 20;
-    var len = (node.emergence - node.extinction) / 1e4;
+    var posX = ((rootNode.emergence - node.emergence) / scale) + delta.dx;
+    var len = (node.emergence - node.extinction) / scale;
     nodes.add(
       Positioned(
         left: posX,
@@ -61,12 +69,11 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-    var newPosY = posY - (node.children.length * 50);
-    print('node: ${node.name}, posX: $posX, posY $newPosY, len: $len');
-    node.children.forEach(
+    var newPosY = posY + (node.children.length * 50);
+    node.children.reversed.forEach(
       (child) {
         addNode(child, newPosY, posY - newPosY);
-        newPosY += 200;
+        newPosY -= 200;
       },
     );
   }
@@ -74,12 +81,28 @@ class _HomeState extends State<Home> {
   Widget build(context) {
     var size = MediaQuery.of(context).size;
     nodes = [];
-    if (rootNode != null) addNode(rootNode, size.height / 2, 0);
+    if (rootNode != null) addNode(rootNode, size.height / 2 + delta.dy, 0);
 
     return Scaffold(
       body: GestureDetector(
-        child: Stack(
-          children: nodes,
+        behavior: HitTestBehavior.translucent,
+        onScaleStart: (data) {
+          initDelta = delta;
+          initFocalPoint = data.focalPoint;
+          initScale = scale;
+        },
+        onScaleUpdate: (data) {
+          setState(() {
+            scale = initScale * (1 / data.scale);
+            delta = initDelta + (data.focalPoint - initFocalPoint);
+            delta = (delta - data.focalPoint).scale(data.scale, 1) +
+                data.focalPoint;
+          });
+        },
+        child: Center(
+          child: Stack(
+            children: nodes.reversed.toList(),
+          ),
         ),
       ),
     );

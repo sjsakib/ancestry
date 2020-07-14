@@ -1,22 +1,67 @@
 {
-  "name": "Node 1",
+  "name": "Hominoidea",
   "img": "images/sapiens.jpg",
-  "em": 4e6,
-  "ex": 2e6,
+  "em": 20e6,
+  "ex": 15.7e6,
   "children": [
     {
-      "name": "Node 2",
+      "name": "Hylobatidae",
       "img": "images/sapiens.jpg",
-      "em": 2e6,
-      "ex": 2e6,
+      "em": 16.8e6,
+      "ex": 14.8e6,
       "children": []
     },
     {
-      "name": "Node 3",
+      "name": "Hominidae",
       "img": "images/sapiens.jpg",
-      "em": 3e6,
-      "ex": 2e6,
-      "children": []
+      "em": 15.7e6,
+      "ex": 8.8e6,
+      "children": [
+        {
+          "name": "Ponginae",
+          "img": "images/sapiens.jpg",
+          "em": 8.8e6,
+          "ex": 7.8e6,
+          "children": []
+        },
+        {
+          "name": "Homininae",
+          "img": "images/sapiens.jpg",
+          "em": 8.8e6,
+          "ex": 7.8e6,
+          "children": [
+            {
+              "name": "Gorillini",
+              "img": "images/sapiens.jpg",
+              "em": 7.8e6,
+              "ex": 7.3e6,
+              "children": []
+            },
+            {
+              "name": "Hominini",
+              "img": "images/sapiens.jpg",
+              "em": 7.8e6,
+              "ex": 7.3e6,
+              "children": [
+                {
+                  "name": "Pania",
+                  "img": "images/sapiens.jpg",
+                  "em": 7.3e6,
+                  "ex": 5.3e6,
+                  "children": []
+                },
+                {
+                  "name": "Australopithecines",
+                  "img": "images/sapiens.jpg",
+                  "em": 7.3e6,
+                  "ex": 5.3e6,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
