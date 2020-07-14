@@ -14,13 +14,39 @@ class NodeWidget extends StatelessWidget {
   Widget build(context) {
     return CustomPaint(
       painter: NodePainter(len, dy),
-      child: Row(
-        children: <Widget>[
-          CircleAvatar(
-            backgroundImage: AssetImage(img),
+      child: InkWell(
+        onTap: () {
+          print(name);
+        },
+        child: Opacity(
+          opacity: 1,
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: kElevationToShadow[1],
+            ),
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundImage: AssetImage(img),
+                  backgroundColor: Colors.blueGrey,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Text(name),
-        ],
+        ),
       ),
     );
   }
@@ -31,7 +57,7 @@ class NodePainter extends CustomPainter {
   final double dy;
 
   final double _curveSize = 50;
-  final double r = 20;
+  final double r = 28;
 
   NodePainter(this.len, this.dy);
 
@@ -39,7 +65,7 @@ class NodePainter extends CustomPainter {
     var dx = min(len, _curveSize);
     canvas.translate(0, r);
     var paint = Paint()
-      ..color = Colors.teal
+      ..color = Colors.blueGrey
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10
       ..strokeCap = StrokeCap.round;

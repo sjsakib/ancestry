@@ -30,8 +30,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Node rootNode;
-  Offset delta = Offset(0, 0);
-  double scale = 5e4;
+  Offset delta = Offset(10, -200);
+  double scale = 4e4;
 
   // gesture state
   Offset initFocalPoint = Offset(0, 0);
