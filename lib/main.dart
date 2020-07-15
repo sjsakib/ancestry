@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ancestry/node.dart';
 import 'package:ancestry/node_widget.dart';
+import 'package:ancestry/ruler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -86,7 +87,22 @@ class _HomeState extends State<Home> {
   Widget build(context) {
     var size = MediaQuery.of(context).size;
     nodes = [];
-    if (rootNode != null) addNode(rootNode, size.height / 2 + delta.dy, 0);
+
+    if (rootNode != null) {
+      nodes.add(
+        Positioned(
+          left: 0,
+          top: 75,
+          width: size.width,
+          child: Ruler(
+            offset: delta.dx,
+            scale: scale,
+            maxTime: rootNode.emergence,
+          ),
+        ),
+      );
+      addNode(rootNode, size.height / 2 + delta.dy, 0);
+    }
 
     return Scaffold(
       body: GestureDetector(
