@@ -18,33 +18,30 @@ class NodeWidget extends StatelessWidget {
         onTap: () {
           print(name);
         },
-        child: Opacity(
-          opacity: 1,
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.blueGrey,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: kElevationToShadow[1],
-            ),
-            child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: AssetImage(img),
-                  backgroundColor: Colors.blueGrey,
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Colors.blueGrey.withAlpha(200),
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: kElevationToShadow[1],
+          ),
+          child: Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundImage: AssetImage(img),
+                backgroundColor: Colors.blueGrey,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(color: Colors.white),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

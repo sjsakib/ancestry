@@ -3,6 +3,8 @@ class Node {
   final String img;
   final double emergence;
   final double extinction;
+  final double dy;
+  final double minScale;
 
   List<Node> children;
   final Node parent;
@@ -12,6 +14,8 @@ class Node {
         img = json['img'],
         emergence = json['em'],
         extinction = json['ex'],
+        dy = json['dy'],
+        minScale = json['minScale'],
         parent = parent {
     children = json['children'].map<Node>(
       (child) => Node.fromJosn(child, this),

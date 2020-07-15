@@ -5,10 +5,10 @@
   "ex": 15.7e6,
   "children": [
     {
-      "name": "Hylobatidae",
+      "name": "Gibbons",
       "img": "images/sapiens.jpg",
       "em": 16.8e6,
-      "ex": 14.8e6,
+      "ex": 0.0,
       "children": []
     },
     {
@@ -18,10 +18,10 @@
       "ex": 8.8e6,
       "children": [
         {
-          "name": "Ponginae",
+          "name": "Orangutans",
           "img": "images/sapiens.jpg",
           "em": 8.8e6,
-          "ex": 7.8e6,
+          "ex": 0.0,
           "children": []
         },
         {
@@ -31,10 +31,10 @@
           "ex": 7.8e6,
           "children": [
             {
-              "name": "Gorillini",
+              "name": "Gorillas",
               "img": "images/sapiens.jpg",
               "em": 7.8e6,
-              "ex": 7.3e6,
+              "ex": 0.0,
               "children": []
             },
             {
@@ -44,18 +44,78 @@
               "ex": 7.3e6,
               "children": [
                 {
-                  "name": "Pania",
+                  "name": "Chimpanzees",
                   "img": "images/sapiens.jpg",
                   "em": 7.3e6,
-                  "ex": 5.3e6,
+                  "ex": 0.0,
+                  "minScale": 2e4,
                   "children": []
                 },
                 {
                   "name": "Australopithecines",
                   "img": "images/sapiens.jpg",
                   "em": 7.3e6,
-                  "ex": 5.3e6,
-                  "children": []
+                  "ex": 3.9e6,
+                  "children": [
+                    {
+                      "name": "Ardipithecus Ramidus",
+                      "img": "images/sapiens.jpg",
+                      "em": 5.77e6,
+                      "ex": 4.4e6,
+                      "minScale": 1.5e4,
+                      "children": []
+                    },
+                    {
+                      "name": "A. anamensis s.l.",
+                      "img": "images/sapiens.jpg",
+                      "em": 3.9e6,
+                      "ex": 2.6e6,
+                      "children": [
+                        {
+                          "name": "A. anamensis s.s.",
+                          "img": "images/sapiens.jpg",
+                          "em": 3.6e6,
+                          "ex": 3.2e6,
+                          "dy": -150.0,
+                          "minScale": 1e4,
+                          "children": []
+                        },
+                        {
+                          "name": "A. afarensis",
+                          "img": "images/sapiens.jpg",
+                          "em": 3.6e6,
+                          "ex": 2.9e6,
+                          "dy": -75.0,
+                          "minScale": 1e4,
+                          "children": []
+                        },
+                        {
+                          "name": "A. garhi",
+                          "img": "images/sapiens.jpg",
+                          "em": 2.6e6,
+                          "ex": 2.5e6,
+                          "minScale": 5e3,
+                          "children": []
+                        },
+                        {
+                          "name": "A. deyiremeda",
+                          "img": "images/sapiens.jpg",
+                          "em": 3.5e6,
+                          "ex": 3.3e6,
+                          "dy": 150.0,
+                          "children": []
+                        },
+                        {
+                          "name": "Kenyanthropus platyops",
+                          "img": "images/sapiens.jpg",
+                          "em": 3.5e6,
+                          "ex": 3.2e6,
+                          "dy": 75.0,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

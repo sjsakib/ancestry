@@ -72,7 +72,12 @@ class _HomeState extends State<Home> {
     var newPosY = posY + (node.children.length * 50);
     node.children.reversed.forEach(
       (child) {
-        addNode(child, newPosY, posY - newPosY);
+        if (child.minScale != null && child.minScale < scale) return;
+        if (child.dy == null) {
+          addNode(child, newPosY, posY - newPosY);
+        } else {
+          addNode(child, posY + child.dy, -child.dy);
+        }
         newPosY -= 200;
       },
     );
