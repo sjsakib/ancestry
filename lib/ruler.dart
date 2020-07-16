@@ -52,14 +52,21 @@ class RulerPainter extends CustomPainter {
   RulerPainter({this.scale, this.offset, this.width, this.maxTime});
 
   void paint(canvas, size) {
-    var paint = Paint()..color = Colors.blueGrey.withAlpha(230);
+    canvas.translate(0, 75);
+    var paint = Paint()..color = Colors.blueGrey;
 
+    var shadowPath = Path()
+      ..lineTo(0, -75)
+      ..lineTo(width, -75)
+      ..lineTo(width, 0)
+      ..lineTo(0, 0);
+    canvas.drawShadow(shadowPath, Colors.black, 4, true);
     canvas.drawRect(Offset(0, 0) & Size(width, -100), paint);
 
     paint
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1
-      ..color = Colors.grey[400];
+      ..color = Colors.white;
 
     var timeInterval = ((1 << log(scale)) * 20).toDouble();
     var interval = timeInterval / scale;
@@ -80,7 +87,7 @@ class RulerPainter extends CustomPainter {
         var _textPainter = TextPainter(
           text: TextSpan(
             text: formatTime(time),
-            style: TextStyle(color: Colors.grey[400]),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
           textAlign: TextAlign.center,
           textDirection: TextDirection.ltr,

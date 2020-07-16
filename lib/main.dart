@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ancestry/event.dart';
+import 'package:ancestry/event_tile.dart';
 import 'package:ancestry/node.dart';
 import 'package:ancestry/node_widget.dart';
 import 'package:ancestry/ruler.dart';
@@ -31,6 +33,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Node rootNode;
+  List<Event> events = [];
   Offset delta = Offset(10, -200);
   double scale = 4e4;
 
@@ -49,9 +52,14 @@ class _HomeState extends State<Home> {
 
   void _loadData() async {
     var dataStr = await rootBundle.loadString('data/data.json');
+    var eventsStr = await rootBundle.loadString('data/events.json');
 
     setState(() {
       rootNode = Node.fromJosn(json.decode(dataStr), null);
+      events = json
+          .decode(eventsStr)
+          .map<Event>((event) => Event.fromJosn(event))
+          .toList();
     });
   }
 
@@ -88,12 +96,21 @@ class _HomeState extends State<Home> {
     var size = MediaQuery.of(context).size;
     nodes = [];
 
-    if (rootNode != null) {
+    if (rootNode != null && events != null) {
+      events.forEach((event) {
+        var posX = ((rootNode.emergence - event.time) / scale) + delta.dx;
+        nodes.add(Positioned(
+          left: posX - 13,
+          top: 80,
+          child: EventTile(event.title),
+        ));
+      });
       nodes.add(
         Positioned(
           left: 0,
-          top: 75,
+          // top: 75,
           width: size.width,
+          height: 75,
           child: Ruler(
             offset: delta.dx,
             scale: scale,
@@ -105,6 +122,7 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
+      // backgroundColor: Colors.blue,
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onScaleStart: (data) {
