@@ -8,8 +8,9 @@ class NodeWidget extends StatelessWidget {
   final String name;
   final String img;
   final double len;
+  final bool highlight;
 
-  NodeWidget({this.name, this.img, this.len, this.dy});
+  NodeWidget({this.name, this.img, this.len, this.dy, this.highlight});
 
   Widget build(context) {
     return CustomPaint(
@@ -23,7 +24,16 @@ class NodeWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.blueGrey.withAlpha(200),
             borderRadius: BorderRadius.circular(8.0),
-            boxShadow: kElevationToShadow[1],
+            boxShadow: highlight == true
+                ? [
+                    BoxShadow(
+                      color: Colors.green.withOpacity(.5),
+                      blurRadius: 5,
+                      spreadRadius: 1,
+                      offset: Offset(1, 1),
+                    )
+                  ]
+                : kElevationToShadow[1],
           ),
           child: Row(
             children: <Widget>[

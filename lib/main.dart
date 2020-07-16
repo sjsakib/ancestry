@@ -75,6 +75,7 @@ class _HomeState extends State<Home> {
           len: len,
           dy: dy,
           img: node.img,
+          highlight: node.highlight,
         ),
       ),
     );
@@ -108,7 +109,6 @@ class _HomeState extends State<Home> {
       nodes.add(
         Positioned(
           left: 0,
-          // top: 75,
           width: size.width,
           height: 75,
           child: Ruler(
@@ -122,7 +122,6 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      // backgroundColor: Colors.blue,
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onScaleStart: (data) {
