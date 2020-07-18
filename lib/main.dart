@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void addNode(Node node, double posY, double dy) {
+  void addNode(Node node, double posY, double dy, bool highlight) {
     var posX = ((rootNode.emergence - node.emergence) / scale) + delta.dx;
     var len = (node.emergence - node.extinction) / scale;
     nodes.add(
@@ -75,22 +75,23 @@ class _HomeState extends State<Home> {
           len: len,
           dy: dy,
           img: node.img,
-          highlight: node.highlight,
+          highlight: highlight,
         ),
       ),
     );
     var newPosY = posY + (node.children.length * 50);
-    node.children.reversed.forEach(
-      (child) {
-        if (child.minScale != null && child.minScale < scale) return;
-        if (child.dy == null) {
-          addNode(child, newPosY, posY - newPosY);
-        } else {
-          addNode(child, posY + child.dy, -child.dy);
-        }
-        newPosY -= 200;
-      },
-    );
+    for (var i = node.children.length - 1; i >= 0; i--) {
+      var child = node.children[i];
+
+      if (child.minScale != null && child.minScale < scale) return;
+
+      if (child.dy == null) {
+        addNode(child, newPosY, posY - newPosY, i == node.children.length-1);
+      } else {
+        addNode(child, posY + child.dy, -child.dy, i == node.children.length-1);
+      }
+      newPosY -= 200;
+    }
   }
 
   Widget build(context) {
@@ -118,7 +119,7 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
-      addNode(rootNode, size.height / 2 + delta.dy, 0);
+      addNode(rootNode, size.height / 2 + delta.dy, 0, true);
     }
 
     return Scaffold(
