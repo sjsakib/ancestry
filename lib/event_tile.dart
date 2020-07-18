@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,16 +14,21 @@ class EventTile extends StatelessWidget {
       painter: EventPainter(clipper),
       child: ClipPath(
         clipper: clipper,
-        child: Container(
-          padding: EdgeInsets.only(top: 18, left: 8, right: 8, bottom: 8),
-          decoration: BoxDecoration(
-            color: Colors.blueGrey,
-          ),
-          child: Text(title,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: Container(
+            padding: EdgeInsets.only(top: 18, left: 8, right: 8, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey.withOpacity(.8),
+            ),
+            child: Text(
+              title,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white)),
+                  .bodyText2
+                  .copyWith(color: Colors.white),
+            ),
+          ),
         ),
       ),
     );
@@ -37,10 +44,10 @@ class EventClipper extends CustomClipper<Path> {
         RRect.fromLTRBR(0, h, size.width, size.height, Radius.circular(8.0)),
       )
       ..moveTo(s, h)
-      ..cubicTo(s, h / 2, h / 2 + s, 0, h*.8 + s, 0)
+      ..cubicTo(s, h / 2, h / 2 + s, 0, h * .8 + s, 0)
       ..cubicTo(s, h, h + s, h, h * 2 + s, h);
-      // ..lineTo(s + h / 2, 0)
-      // ..lineTo(s + h, h);
+    // ..lineTo(s + h / 2, 0)
+    // ..lineTo(s + h, h);
   }
 
   @override
@@ -54,7 +61,7 @@ class EventPainter extends CustomPainter {
   EventPainter(this.clipper);
   void paint(canvas, size) {
     var path = clipper.getClip(size);
-    canvas.drawShadow(path, Colors.black, 4, false);
+    canvas.drawShadow(path, Colors.black, 1, false);
   }
 
   @override

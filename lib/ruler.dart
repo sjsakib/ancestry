@@ -15,9 +15,14 @@ int log(double x) {
 
 String formatTime(double time) {
   if (time < 0) time *= -1;
+
+  if (time > 2e8) {
+    return '${(time / 1e9).toStringAsFixed(1)}B';
+  }
   if (time > 2e5) {
     return '${(time / 1e6).toStringAsFixed(1)}M';
-  } else if (time > 1e3) {
+  }
+  if (time > 5e3) {
     return '${(time / 1e3).toStringAsFixed(1)}K';
   }
   return '${time.toInt()}';
@@ -31,14 +36,25 @@ class Ruler extends StatelessWidget {
   Ruler({this.scale, this.offset, this.maxTime});
 
   Widget build(context) {
-    var width = MediaQuery.of(context).size.width;
-    return CustomPaint(
-      painter: RulerPainter(
-        scale: scale,
-        offset: offset,
-        width: width,
-        maxTime: maxTime,
-      ),
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: Container(
+              color: Colors.black.withOpacity(0),
+            ),
+          ),
+        ),
+        CustomPaint(
+          painter: RulerPainter(
+            scale: scale,
+            offset: offset,
+            maxTime: maxTime,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -47,21 +63,17 @@ class RulerPainter extends CustomPainter {
   final double scale;
   final double offset;
   final double maxTime;
-  final double width;
 
-  RulerPainter({this.scale, this.offset, this.width, this.maxTime});
+  RulerPainter({this.scale, this.offset, this.maxTime});
 
   void paint(canvas, size) {
-    canvas.translate(0, 75);
-    var paint = Paint()..color = Colors.blueGrey;
+    var paint = Paint()..color = Colors.blueGrey.withOpacity(.8);
 
-    var shadowPath = Path()
-      ..lineTo(0, -75)
-      ..lineTo(width, -75)
-      ..lineTo(width, 0)
-      ..lineTo(0, 0);
-    canvas.drawShadow(shadowPath, Colors.black, 4, true);
-    canvas.drawRect(Offset(0, 0) & Size(width, -100), paint);
+    var shadowPath = Path()..addRect(Offset(0, 0) & size);
+    canvas.drawShadow(shadowPath, Colors.black, 2, true);
+    canvas.drawRect(Offset(0, 0) & size, paint);
+
+    canvas.translate(0, 75);
 
     paint
       ..style = PaintingStyle.stroke
@@ -76,7 +88,7 @@ class RulerPainter extends CustomPainter {
     var time = i * timeInterval;
 
     for (;
-        pos < width && time >= 0;
+        pos < size.width && time >= 0;
         pos += interval, i -= 1, time = i * timeInterval) {
       var height = 10.0;
 
@@ -108,6 +120,6 @@ class RulerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }

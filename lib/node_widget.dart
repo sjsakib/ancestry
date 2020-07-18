@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,46 +14,36 @@ class NodeWidget extends StatelessWidget {
   NodeWidget({this.name, this.img, this.len, this.dy, this.highlight});
 
   Widget build(context) {
+    var clipper = NodeClipper();
     return CustomPaint(
-      painter: NodePainter(len, dy),
-      child: InkWell(
-        onTap: () {
-          print(name);
-        },
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.blueGrey.withAlpha(200),
-            borderRadius: BorderRadius.circular(8.0),
-            boxShadow: highlight == true
-                ? [
-                    BoxShadow(
-                      color: Colors.green.withOpacity(.5),
-                      blurRadius: 5,
-                      spreadRadius: 1,
-                      offset: Offset(1, 1),
-                    )
-                  ]
-                : kElevationToShadow[1],
-          ),
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundImage: AssetImage(img),
-                backgroundColor: Colors.blueGrey,
+      painter: NodePainter(len, dy, clipper, highlight),
+      child: ClipPath(
+        clipper: clipper,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.blueGrey.withOpacity(.6),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: AssetImage(img),
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                ],
+              )),
         ),
       ),
     );
@@ -63,16 +54,21 @@ class NodePainter extends CustomPainter {
   final double len;
   final double dy;
 
+  final NodeClipper clipper;
+  final bool highlight;
+
   final double _curveSize = 50;
   final double r = 28;
 
-  NodePainter(this.len, this.dy);
+  NodePainter(this.len, this.dy, this.clipper, this.highlight);
 
   void paint(canvas, size) {
+    canvas.drawShadow(clipper.getClip(size),
+        highlight == true ? Colors.greenAccent : Colors.black, 1, false);
     var dx = min(len, _curveSize);
     canvas.translate(0, r);
     var paint = Paint()
-      ..color = Colors.blueGrey
+      ..color = Colors.blueGrey.shade300
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10
       ..strokeCap = StrokeCap.round;
@@ -92,6 +88,32 @@ class NodePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class NodeClipper extends CustomClipper<Path> {
+  Path getClip(size) {
+    return Path()
+      ..addRRect(
+        RRect.fromLTRBR(
+          size.height - 8,
+          12,
+          size.width,
+          size.height - 12,
+          Radius.circular(8.0),
+        ),
+      )
+      ..addOval(
+        Rect.fromCircle(
+          center: Offset(size.height / 2, size.height / 2),
+          radius: size.height / 2 - 4,
+        ),
+      );
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false;
   }
 }
